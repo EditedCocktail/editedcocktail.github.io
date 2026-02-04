@@ -1,3 +1,5 @@
-# editedcocktail.github.io
-Activation keys for VoiceCatX.
-[Get Activation Key](https://editedcocktail.github.io)
+<html>
+  <head>
+    <META http-equiv="refresh" content="0;URL=/site/index.html">
+  </head>
+</html>

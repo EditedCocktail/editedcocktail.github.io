@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VoiceCatX Key Generator</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
@@ -107,7 +106,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Hello from VoiceCatX</h1>
+    <h1>VoiceCatX Activation Key Generator</h1>
     
     <div class="input-group">
       <input type="text" id="idInput" placeholder="Enter VoiceCatX ID" autocomplete="off" />
@@ -118,7 +117,7 @@
       Expiration: ???
     </div>
     
-    <button id="generateBtn">Generate +1 Month Key</button>
+    <button id="generateBtn">Generate Activation Key</button>
     
     <div class="lds-dual-ring" id="loadingRing"></div>
   </div>
@@ -249,7 +248,10 @@
     // Format date for display
     function formatDate(timestampMs) {
       const date = new Date(timestampMs);
-      return date.toISOString().split('T')[0]; // YYYY-MM-DD
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
     }
     
     // Generate and save key

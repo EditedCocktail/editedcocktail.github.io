@@ -234,6 +234,15 @@ body {
   color: var(--accent);
 }
 
+.clickable-version {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.clickable-version:hover {
+  text-decoration: underline;
+}
+
 .tutorial-steps {
   margin-top: 0.75rem;
   padding-left: 1.25rem;

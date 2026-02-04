@@ -41,12 +41,18 @@ body {
   z-index: 1000;
 }
 
-.app-icon {
-  width: 6rem;
-  height: 6rem;
+.header-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.app-icon-inline {
+  height: 1.5em;
+  width: auto;
   filter: brightness(0) invert(1);
   mix-blend-mode: difference;
-  margin-bottom: 0.5rem;
 }
 
 .launch-text {

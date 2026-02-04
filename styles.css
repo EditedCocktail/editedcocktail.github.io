@@ -130,7 +130,7 @@ body {
 .user-count {
   position: absolute;
   bottom: 0.5rem;
-  left: 1rem;
+  left: 0;
   font-size: 0.875rem;
   color: var(--secondary-text);
 }
@@ -138,7 +138,7 @@ body {
 .author {
   position: absolute;
   bottom: 0.5rem;
-  right: 1rem;
+  right: 0;
   font-size: 0.875rem;
   color: var(--secondary-text);
 }

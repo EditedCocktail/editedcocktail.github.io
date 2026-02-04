@@ -200,7 +200,6 @@ body {
 .tab-content {
   display: none;
   width: 100%;
-  max-width: 20rem;
 }
 
 .tab-content.active {

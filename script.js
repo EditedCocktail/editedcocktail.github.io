@@ -213,7 +213,7 @@ async function generateAndSaveKey() {
       if (expirationMs > currentMs) {
         const expirationDate = formatDate(expirationMs);
         const t = translations[currentLang];
-        infoBox.innerHTML = `${t.previousNotExpired}<br>Key: ${data.key}<br>Expiration: ${expirationDate}`;
+        infoBox.innerHTML = `${t.previousNotExpired}<br>${t.keyLabel}: ${data.key}<br>${t.expirationLabel}: ${expirationDate}`;
         currentKey = data.key;
         currentExpirationDate = expirationDate;
         loadingRing.classList.remove('active');

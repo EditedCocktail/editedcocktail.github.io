@@ -53,7 +53,6 @@ const translations = {
     versionLabel: "Latest version:",
     tutorialTitle: "Installation Tutorial",
     tutorialSteps: [
-      "Close VoiceCatX (if open)",
       "Create an empty folder or go to your VoiceCatX folder",
       "Add this folder to Windows Defender exclusions",
       "Place VoiceCatXManager.exe in this folder",
@@ -82,7 +81,6 @@ const translations = {
     versionLabel: "Последняя версия:",
     tutorialTitle: "Инструкция по установке",
     tutorialSteps: [
-      "Закройте VoiceCatX (если открыт)",
       "Создайте пустую папку или Зайдите в папку с VoiceCatX",
       "Добавьте эту папку в исключения Защитника Windows",
       "Положите в эту папку VoiceCatXManager.exe",

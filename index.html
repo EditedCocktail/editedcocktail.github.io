@@ -3,111 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <title>VoiceCatX</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      background-color: #f0eef1;
-      padding: 20px;
-    }
-    
-    .container {
-      text-align: center;
-      max-width: 500px;
-      width: 100%;
-    }
-    
-    h1 {
-      margin-bottom: 30px;
-      font-size: 24px;
-    }
-    
-    .input-group {
-      margin: 20px 0;
-    }
-    
-    input {
-      padding: 12px;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-    
-    .info {
-      margin: 25px 0;
-      padding: 20px;
-      background-color: white;
-      border-radius: 8px;
-      min-height: 80px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      word-break: break-all;
-    }
-    
-    button {
-      padding: 12px 24px;
-      background-color: #9fff9c;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: filter 0.15s ease-in-out;
-      font-weight: 600;
-    }
-    
-    button:hover:not(:disabled) {
-      filter: brightness(90%);
-    }
-    
-    button:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-    
-    .lds-dual-ring {
-      display: none;
-      width: 38px;
-      height: 38px;
-      margin: 20px auto;
-    }
-    
-    .lds-dual-ring:after {
-      content: " ";
-      display: block;
-      width: 30px;
-      height: 30px;
-      margin: 8px;
-      border-radius: 50%;
-      border: 3px solid #050505;
-      border-color: #050505 transparent #050505 transparent;
-      animation: lds-dual-ring 1.2s linear infinite;
-    }
-    
-    .lds-dual-ring.active {
-      display: block;
-    }
-    
-    @keyframes lds-dual-ring {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" />
 </head>
 <body>
   <div class="container">
-    <h1>VoiceCatX Activation Key Generator</h1>
+    <!-- Theme Toggle Button -->
+    <button class="theme-btn" id="theme-btn">
+      <i class="ph-fill ph-sun"></i>
+    </button>
+    
+    <h1 id="page-title">VoiceCatX Activation Key Generator</h1>
     
     <div class="input-group">
       <input type="text" id="idInput" placeholder="Enter VoiceCatX ID" autocomplete="off" />
@@ -121,6 +31,12 @@
     <button id="generateBtn">Generate Activation Key</button>
     
     <div class="lds-dual-ring" id="loadingRing"></div>
+    
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <button class="lang-option accent" data-lang="en">English</button>
+      <button class="lang-option" data-lang="ru">Русский</button>
+    </div>
   </div>
 
   <!-- Firebase -->
@@ -130,179 +46,6 @@
   <!-- Crypto-JS for SHA256 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
   
-  <script>
-    // Firebase config (same as your original app)
-    const firebaseConfig = {
-      apiKey: "AIzaSyCm4t7eokVqF1baXGeQtidR6A2ZrJUMGHk",
-      authDomain: "voicecatx.firebaseapp.com",
-      projectId: "voicecatx",
-      storageBucket: "voicecatx.firebasestorage.app",
-      messagingSenderId: "503409354304",
-      appId: "1:503409354304:web:ad6372e2d79634af8e21a5",
-      measurementId: "G-DXV389RNPQ"
-    };
-    
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    
-    // Constants
-    const B32_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
-    const ONE_MONTH_MS = 30 * 24 * 3600 * 1000; // 30 days in milliseconds
-    
-    // DOM elements
-    const idInput = document.getElementById('idInput');
-    const infoBox = document.getElementById('infoBox');
-    const generateBtn = document.getElementById('generateBtn');
-    const loadingRing = document.getElementById('loadingRing');
-    
-    // Get current timestamp in milliseconds
-    function getCurrentTimestampMs() {
-      return Date.now();
-    }
-    
-    // Base32 encode with custom padding
-    function base32Encode(data) {
-      // Convert to base64 first
-      let binary = '';
-      const bytes = new Uint8Array(data);
-      for (let i = 0; i < bytes.length; i++) {
-        binary += String.fromCharCode(bytes[i]);
-      }
-      const base64 = btoa(binary);
-      
-      // Convert base64 to base32 (simplified approach)
-      // We'll use a more direct method since full base32 conversion is complex in JS
-      // Instead, we'll use the same logic as the Python version but in JS
-      const bits = [];
-      for (let byte of data) {
-        for (let i = 7; i >= 0; i--) {
-          bits.push((byte >> i) & 1);
-        }
-      }
-      
-      // Pad to multiple of 5
-      while (bits.length % 5 !== 0) {
-        bits.push(0);
-      }
-      
-      let b32 = '';
-      for (let i = 0; i < bits.length; i += 5) {
-        let chunk = 0;
-        for (let j = 0; j < 5; j++) {
-          chunk = (chunk << 1) | bits[i + j];
-        }
-        b32 += B32_CHARS[chunk];
-      }
-      
-      // Remove padding '=' (not needed in our case)
-      return b32;
-    }
-    
-    // Generate activation key (equivalent to Python's encode_activation_key)
-    function encodeActivationKey(expirationMs, idStr) {
-      // Convert expiration to string bytes
-      const dataStr = expirationMs.toString();
-      const data = new TextEncoder().encode(dataStr);
-      
-      // Generate SHA256 key from ID
-      const keyHex = CryptoJS.SHA256(idStr).toString();
-      const keyBytes = [];
-      for (let i = 0; i < keyHex.length; i += 2) {
-        keyBytes.push(parseInt(keyHex.substr(i, 2), 16));
-      }
-      
-      // XOR encrypt
-      const encrypted = new Uint8Array(data.length);
-      for (let i = 0; i < data.length; i++) {
-        encrypted[i] = data[i] ^ keyBytes[i % keyBytes.length];
-      }
-      
-      // Base32 encode
-      let b32 = base32Encode(encrypted);
-      
-      // Add random padding to make length multiple of 5
-      const remainder = b32.length % 5;
-      const padLen = (5 - remainder) % 5;
-      let padding = '';
-      if (padLen > 0) {
-        for (let i = 0; i < padLen; i++) {
-          padding += B32_CHARS.charAt(Math.floor(Math.random() * B32_CHARS.length));
-        }
-        b32 += padding;
-      }
-      
-      // Format with groups
-      const groups = [];
-      for (let i = 0; i < b32.length; i += 5) {
-        groups.push(b32.substring(i, i + 5));
-      }
-      
-      return `VSCX${padLen}-${groups.join('-')}`;
-    }
-    
-    // Update info display
-    function updateInfo(key, expirationDate) {
-      infoBox.innerHTML = `Key: ${key}<br>Expiration: ${expirationDate}`;
-    }
-    
-    // Format date for display
-    function formatDate(timestampMs) {
-      const date = new Date(timestampMs);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = date.getFullYear();
-      return `${day}-${month}-${year}`;
-    }
-    
-    // Generate and save key
-    async function generateAndSaveKey() {
-      const id = idInput.value.trim();
-      if (!id) {
-        alert('Please enter a VoiceCatX ID');
-        return;
-      }
-      
-      // Show loading
-      loadingRing.classList.add('active');
-      generateBtn.disabled = true;
-      
-      try {
-        // Calculate expiration (+1 month)
-        const currentMs = getCurrentTimestampMs();
-        const expirationMs = currentMs + ONE_MONTH_MS;
-        const expirationDate = formatDate(expirationMs);
-        
-        // Generate key
-        const key = encodeActivationKey(expirationMs, id);
-        
-        // Save to Firestore
-        await db.collection('keys').doc(id).set({
-          key: key,
-          expiration: expirationMs,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        // Update UI
-        updateInfo(key, expirationDate);
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Error generating key. Please try again.');
-      } finally {
-        // Hide loading
-        loadingRing.classList.remove('active');
-        generateBtn.disabled = false;
-      }
-    }
-    
-    // Event listeners
-    generateBtn.addEventListener('click', generateAndSaveKey);
-    idInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') generateAndSaveKey();
-    });
-    
-    // Initialize
-    updateInfo('???', '???');
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

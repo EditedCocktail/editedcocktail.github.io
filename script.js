@@ -12,6 +12,7 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const MANAGER_YANDEX_LINK = "https://disk.yandex.ru/d/lwGOn7eVgP3P_A";
 
 // Constants
 const B32_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
@@ -42,6 +43,7 @@ const versionValue = document.getElementById('version-value');
 // Store current key and expiration for language updates
 let currentKey = null;
 let currentExpirationDate = null;
+let latestGistData = null;
 
 // Translations
 const translations = {
@@ -104,6 +106,35 @@ const translations = {
 };
 
 let currentLang = 'en';
+
+async function generateYandexDirectLink(yandexPublicLink) {
+  const YANDEX_API = "https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=";
+  
+  try {
+    const response = await fetch(YANDEX_API + encodeURIComponent(yandexPublicLink.trim()));
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    if (!data.href) {
+      throw new Error("Invalid API response: missing 'href' property");
+    }
+    return data.href;
+  } catch (error) {
+    console.error("Failed to generate direct link:", error);
+    alert("Failed to prepare download. Please try again later.");
+    throw error;
+  }
+}
+
+async function triggerDownloadFromYandexLink(publicLink) {
+  const directLink = await generateYandexDirectLink(publicLink);
+  const a = document.createElement('a');
+  a.href = directLink;
+  a.download = '';
+  document.body.appendChild(a);
+  a.click();
+}
 
 // Apply language
 function applyLanguage(language) {
@@ -308,10 +339,12 @@ async function fetchLatestVersion() {
     const response = await fetch('https://gist.githubusercontent.com/EditedCocktail/b49f4f670a1bef5a4a855938b3bce60f/raw/vcx-update.txt');
     const text = await response.text();
     const json = JSON.parse(text);
+    latestGistData = json;
     versionValue.textContent = json.version || 'Unknown';
   } catch (error) {
     console.error('Failed to fetch version:', error);
     versionValue.textContent = 'Error';
+    latestGistData = null;
   }
 }
 
@@ -327,6 +360,16 @@ function switchTab(tabName) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('download-btn').addEventListener('click', () => {
+    triggerDownloadFromYandexLink(MANAGER_YANDEX_LINK);
+  });
+  
+  document.getElementById('version-value').addEventListener('click', () => {
+    if (latestGistData && latestGistData.link) {
+      triggerDownloadFromYandexLink(latestGistData.link);
+    }
+  });
+  
   langButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       langButtons.forEach(b => b.classList.remove('accent'));

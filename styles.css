@@ -93,7 +93,6 @@ body {
   color: var(--primary-text);
 }
 
-/* Info box styled like an input but non-editable */
 .info-box {
   background: var(--secondary-background);
   color: var(--primary-text);
@@ -104,7 +103,7 @@ body {
   text-align: center;
   white-space: pre-line;
   pointer-events: none;
-  user-select: text; /* Allow copying key */
+  user-select: text;
 }
 
 .language-selector {
@@ -123,7 +122,6 @@ body {
   font-size: 1rem;
 }
 
-/* Loading spinner – keep hidden by default, show when active */
 .lds-dual-ring {
   display: none;
   width: 2.375rem;

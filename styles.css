@@ -123,7 +123,7 @@ button {
   font-size: 1rem;
   cursor: pointer;
   font-weight: 600;
-  color: var(--active-text, white);
+  color: var(--primary-background);
   transition: background 0.2s;
 }
 
@@ -174,7 +174,7 @@ button:disabled {
   font-size: 1rem;
   border: 0.0625rem solid var(--border);
   background: var(--secondary-background);
-  border-radius: 50%;
+  border-radius: var(--border-radius);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -204,25 +204,9 @@ button:disabled {
 
 .lang-option.accent {
   background: var(--accent);
-  color: white;
+  color: var(--primary-background);
 }
 
 .lang-option:hover {
   background: var(--hover-background);
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 0.5rem;
-  }
-  
-  .language-selector {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .lang-option {
-    width: 100%;
-    max-width: 15rem;
-  }
 }

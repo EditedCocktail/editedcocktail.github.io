@@ -140,18 +140,15 @@ async function triggerDownloadFromYandexLink(publicLink) {
 function applyLanguage(language) {
   currentLang = language;
   const t = translations[language];
-  
-  // Main header
+
   headerText.textContent = t.title;
-  
-  // Download tab
+
   document.getElementById('download-title').textContent = t.downloadTitle;
   document.getElementById('download-desc').textContent = t.downloadDesc;
   document.getElementById('download-btn').textContent = t.downloadBtn;
   document.getElementById('version-label').textContent = t.versionLabel;
   document.getElementById('tutorial-title').textContent = t.tutorialTitle;
   
-  // Update tutorial steps
   const tutorialSteps = document.querySelectorAll('#tutorial-steps li');
   tutorialSteps.forEach((step, index) => {
     step.textContent = t.tutorialSteps[index];
@@ -160,7 +157,6 @@ function applyLanguage(language) {
   document.querySelector('.tab-btn[data-tab="download"]').textContent = t.tabDownload;
   document.querySelector('.tab-btn[data-tab="activation"]').textContent = t.tabActivation;
   
-  // Activation tab
   idInput.placeholder = t.placeholder;
   generateBtn.textContent = t.generateBtn;
   

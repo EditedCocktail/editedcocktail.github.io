@@ -31,6 +31,10 @@ const themeBtn = document.getElementById('theme-btn');
 const langButtons = document.querySelectorAll('.lang-option');
 const pageTitle = document.getElementById('page-title');
 
+// Store current key and expiration for language updates
+let currentKey = null;
+let currentExpirationDate = null;
+
 // Translations
 const translations = {
   en: {
@@ -64,13 +68,10 @@ function applyLanguage(language) {
   idInput.placeholder = t.placeholder;
   generateBtn.textContent = t.generateBtn;
   
-  // Update info box if it has content
-  if (infoBox.innerHTML !== 'Key: ???<br>Expiration: ???') {
-    const keyMatch = infoBox.innerHTML.match(/Key: ([^<]+)/);
-    const expMatch = infoBox.innerHTML.match(/Expiration: (.+)/);
-    if (keyMatch && expMatch) {
-      updateInfo(keyMatch[1], expMatch[1]);
-    }
+  if (currentKey && currentExpirationDate) {
+    updateInfoDisplay(currentKey, currentExpirationDate);
+  } else {
+    infoBox.innerHTML = `${t.keyLabel}: ???<br>${t.expirationLabel}: ???`;
   }
 }
 
@@ -150,7 +151,9 @@ function encodeActivationKey(expirationMs, idStr) {
 }
 
 // Update info display with translation
-function updateInfo(key, expirationDate) {
+function updateInfoDisplay(key, expirationDate) {
+  currentKey = key;
+  currentExpirationDate = expirationDate;
   const t = translations[currentLang];
   infoBox.innerHTML = `${t.keyLabel}: ${key}<br>${t.expirationLabel}: ${expirationDate}`;
 }
@@ -188,10 +191,12 @@ async function generateAndSaveKey() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
-    updateInfo(key, expirationDate);
+    updateInfoDisplay(key, expirationDate);
   } catch (error) {
     console.error('Error:', error);
     alert(translations[currentLang].error);
+    currentKey = null;
+    currentExpirationDate = null;
   } finally {
     loadingRing.classList.remove('active');
     generateBtn.disabled = false;
@@ -209,10 +214,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Load saved language or default to English
   const savedLang = localStorage.getItem('voicecatx-lang');
   if (savedLang && translations[savedLang]) {
-    applyLanguage(savedLang)
+    applyLanguage(savedLang);
     langButtons.forEach(btn => {
       if (btn.dataset.lang === savedLang) {
         btn.classList.add('accent');
@@ -224,7 +228,6 @@ document.addEventListener('DOMContentLoaded', function () {
     applyLanguage('en');
   }
 
-  // Theme setup
   const savedTheme = localStorage.getItem('voicecatx-theme');
   if (savedTheme && themeNames.includes(savedTheme)) {
     setTheme(savedTheme);
@@ -244,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.key === 'Enter') generateAndSaveKey();
   });
 
-  updateInfo('???', '???');
+  updateInfoDisplay('???', '???');
   
   idInput.focus();
 });

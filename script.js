@@ -46,7 +46,9 @@ const translations = {
     generateBtn: "Generate Activation Key",
     alert: "Please enter a VoiceCatX ID",
     error: "Error generating key. Please try again.",
-    enterIdPrompt: "Enter your VoiceCatX ID below"
+    enterIdPrompt: "Enter your VoiceCatX ID below",
+    previousNotExpired: "Previous activation key is not expired yet",
+    usersLabel: "Users"
   },
   ru: {
     title: "Генератор ключей активации VoiceCatX",
@@ -56,7 +58,9 @@ const translations = {
     generateBtn: "Сгенерировать ключ активации",
     alert: "Пожалуйста, введите ID VoiceCatX",
     error: "Ошибка генерации ключа. Пожалуйста, попробуйте снова.",
-    enterIdPrompt: "Введите ваш ID VoiceCatX ниже"
+    enterIdPrompt: "Введите ваш ID VoiceCatX ниже",
+    previousNotExpired: "Предыдущий ключ активации ещё не истёк",
+    usersLabel: "Пользователей"
   }
 };
 
@@ -153,6 +157,19 @@ function encodeActivationKey(expirationMs, idStr) {
   return base32Encode(encrypted);
 }
 
+// Update user count display
+async function updateUserCount() {
+  try {
+    const snapshot = await db.collection('keys').get();
+    const count = snapshot.size;
+    const t = translations[currentLang];
+    document.getElementById('userCount').textContent = `${t.usersLabel}: ${count}`;
+  } catch (error) {
+    console.error("Failed to fetch user count:", error);
+    document.getElementById('userCount').textContent = `${translations[currentLang].usersLabel}: ?`;
+  }
+}
+
 // Update info display with translation
 function updateInfoDisplay(key, expirationDate) {
   currentKey = key;
@@ -177,23 +194,42 @@ async function generateAndSaveKey() {
     alert(translations[currentLang].alert);
     return;
   }
-  
+
   loadingRing.classList.add('active');
   generateBtn.disabled = true;
-  
+
   try {
+    const docRef = db.collection('keys').doc(id);
+    const docSnap = await docRef.get();
+
     const currentMs = getCurrentTimestampMs();
+
+    if (docSnap.exists) {
+      const data = docSnap.data();
+      const expirationMs = data.expiration;
+
+      if (expirationMs > currentMs) {
+        const expirationDate = formatDate(expirationMs);
+        const t = translations[currentLang];
+        infoBox.innerHTML = `${t.previousNotExpired}<br>Key: ${data.key}<br>Expiration: ${expirationDate}`;
+        currentKey = data.key;
+        currentExpirationDate = expirationDate;
+        loadingRing.classList.remove('active');
+        generateBtn.disabled = false;
+        return;
+      }
+    }
+
     const expirationMs = currentMs + ONE_MONTH_MS;
     const expirationDate = formatDate(expirationMs);
-    
     const key = encodeActivationKey(expirationMs, id);
-    
-    await db.collection('keys').doc(id).set({
+
+    await docRef.set({
       key: key,
       expiration: expirationMs,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    
+
     updateInfoDisplay(key, expirationDate);
   } catch (error) {
     console.error('Error:', error);
@@ -251,6 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   applyLanguage(currentLang);
-
   idInput.focus();
+  
+  updateUserCount();
 });

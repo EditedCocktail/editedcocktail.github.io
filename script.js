@@ -107,26 +107,6 @@ const translations = {
 
 let currentLang = 'en';
 
-async function generateYandexDirectLink(yandexPublicLink) {
-  const YANDEX_API = "https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=";
-  
-  try {
-    const response = await fetch(YANDEX_API + encodeURIComponent(yandexPublicLink.trim()));
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    if (!data.href) {
-      throw new Error("Invalid API response: missing 'href' property");
-    }
-    return data.href;
-  } catch (error) {
-    console.error("Failed to generate direct link:", error);
-    alert("Failed to prepare download. Please try again later.");
-    throw error;
-  }
-}
-
 async function triggerDownloadFromYandexLink(publicLink) {
   const directLink = await generateYandexDirectLink(publicLink);
   const a = document.createElement('a');
@@ -357,12 +337,12 @@ function switchTab(tabName) {
 
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('download-btn').addEventListener('click', () => {
-    triggerDownloadFromYandexLink(MANAGER_YANDEX_LINK);
+    window.open(MANAGER_YANDEX_LINK, '_blank');
   });
   
   document.getElementById('version-value').addEventListener('click', () => {
     if (latestGistData && latestGistData.link) {
-      triggerDownloadFromYandexLink(latestGistData.link);
+      window.open(latestGistData.link, '_blank');
     }
   });
   

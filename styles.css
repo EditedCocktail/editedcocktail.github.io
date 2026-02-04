@@ -121,6 +121,14 @@ body {
   font-size: 1rem;
 }
 
+.user-count {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 1rem;
+  font-size: 0.875rem;
+  color: var(--secondary-text);
+}
+
 .lds-dual-ring {
   display: none;
   width: 2.375rem;

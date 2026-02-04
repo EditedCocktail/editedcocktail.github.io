@@ -2,40 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>VoiceCatX</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <link rel="stylesheet" href="styles.css">
+  <title>VoiceCatX</title>
+  <link rel="stylesheet" href="themes.css" />
+  <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" />
 </head>
 <body>
-  <div class="container">
-    <!-- Theme Toggle Button -->
-    <button class="theme-btn" id="theme-btn">
-      <i class="ph-fill ph-sun"></i>
-    </button>
-    
-    <h1 id="page-title">VoiceCatX Activation Key Generator</h1>
+  <div id="launch-screen" class="fullscreen-center">
+    <img src="../assets/icon.svg" alt="VoiceCat" class="app-icon">
+    <h2 id="header-text">VoiceCatX Activation Key Generator</h2>
+    <div id="launch-text" class="launch-text">Enter your VoiceCatX ID below</div>
 
-    <!-- Language Selector -->
+    <button class="default-btn theme-btn" id="theme-btn"><i class="ph-fill ph-sun"></i></button>
+    
     <div class="language-selector">
-      <button class="lang-option accent" data-lang="en">English</button>
-      <button class="lang-option" data-lang="ru">Русский</button>
+      <button class="default-btn lang-option accent" data-lang="en">English</button>
+      <button class="default-btn lang-option" data-lang="ru">Русский</button>
     </div>
-    
-    <div class="input-group">
-      <input type="text" id="idInput" placeholder="Enter VoiceCatX ID" autocomplete="off" />
-    </div>
-    
-    <div class="info" id="infoBox">
+
+    <input class="default-input" id="idInput" placeholder="Enter VoiceCatX ID" autocomplete="off">
+
+    <div class="info-box default-input" id="infoBox">
       Key: ???<br>
       Expiration: ???
     </div>
-    
-    <button id="generateBtn">Generate Activation Key</button>
-    
+
+    <button class="default-btn" id="generateBtn">Generate Activation Key</button>
+
     <div class="lds-dual-ring" id="loadingRing"></div>
   </div>
 

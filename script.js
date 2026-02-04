@@ -22,14 +22,15 @@ const themeNames = ['light', 'dark', 'horizon'];
 const themeIcons = ['sun', 'moon', 'sun-horizon'];
 let currentTheme = themeNames[0];
 
-// DOM elements
+// DOM elements — UPDATED TO MATCH index.html
 const idInput = document.getElementById('idInput');
 const infoBox = document.getElementById('infoBox');
 const generateBtn = document.getElementById('generateBtn');
 const loadingRing = document.getElementById('loadingRing');
 const themeBtn = document.getElementById('theme-btn');
 const langButtons = document.querySelectorAll('.lang-option');
-const pageTitle = document.getElementById('page-title');
+const headerText = document.getElementById('header-text');
+const launchText = document.getElementById('launch-text');
 
 // Store current key and expiration for language updates
 let currentKey = null;
@@ -44,7 +45,8 @@ const translations = {
     expirationLabel: "Expiration",
     generateBtn: "Generate Activation Key",
     alert: "Please enter a VoiceCatX ID",
-    error: "Error generating key. Please try again."
+    error: "Error generating key. Please try again.",
+    enterIdPrompt: "Enter your VoiceCatX ID below"
   },
   ru: {
     title: "Генератор ключей активации VoiceCatX",
@@ -53,7 +55,8 @@ const translations = {
     expirationLabel: "Истекает",
     generateBtn: "Сгенерировать ключ активации",
     alert: "Пожалуйста, введите ID VoiceCatX",
-    error: "Ошибка генерации ключа. Пожалуйста, попробуйте снова."
+    error: "Ошибка генерации ключа. Пожалуйста, попробуйте снова.",
+    enterIdPrompt: "Введите ваш ID VoiceCatX ниже"
   }
 };
 
@@ -64,14 +67,15 @@ function applyLanguage(language) {
   currentLang = language;
   const t = translations[language];
   
-  pageTitle.textContent = t.title;
+  headerText.textContent = t.title;
+  launchText.textContent = t.enterIdPrompt;
   idInput.placeholder = t.placeholder;
   generateBtn.textContent = t.generateBtn;
   
-  if (currentKey && currentExpirationDate) {
+  if (currentKey !== null && currentExpirationDate !== null) {
     updateInfoDisplay(currentKey, currentExpirationDate);
   } else {
-    updateInfoDisplay('???', '???');
+    infoBox.innerHTML = `${t.keyLabel}: ???<br>${t.expirationLabel}: ???`;
   }
 }
 
@@ -202,7 +206,6 @@ async function generateAndSaveKey() {
   }
 }
 
-// Initialize on DOM content loaded
 document.addEventListener('DOMContentLoaded', function () {
   langButtons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -225,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   } else {
     applyLanguage('en');
+    document.querySelector('.lang-option[data-lang="en"]').classList.add('accent');
   }
 
   const savedTheme = localStorage.getItem('voicecatx-theme');
@@ -246,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.key === 'Enter') generateAndSaveKey();
   });
 
-  updateInfoDisplay('???', '???');
-  
+  applyLanguage(currentLang);
+
   idInput.focus();
 });

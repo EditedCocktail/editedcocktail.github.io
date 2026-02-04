@@ -22,7 +22,7 @@ const themeNames = ['light', 'dark', 'horizon'];
 const themeIcons = ['sun', 'moon', 'sun-horizon'];
 let currentTheme = themeNames[0];
 
-// DOM elements — UPDATED TO MATCH index.html
+// DOM elements
 const idInput = document.getElementById('idInput');
 const infoBox = document.getElementById('infoBox');
 const generateBtn = document.getElementById('generateBtn');
@@ -30,7 +30,14 @@ const loadingRing = document.getElementById('loadingRing');
 const themeBtn = document.getElementById('theme-btn');
 const langButtons = document.querySelectorAll('.lang-option');
 const headerText = document.getElementById('header-text');
-const launchText = document.getElementById('launch-text');
+const userCount = document.getElementById('userCount');
+
+// Tab elements
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+// Version elements
+const versionValue = document.getElementById('version-value');
 
 // Store current key and expiration for language updates
 let currentKey = null;
@@ -39,26 +46,56 @@ let currentExpirationDate = null;
 // Translations
 const translations = {
   en: {
-    title: "VoiceCatX Activation Key Generator",
+    title: "VoiceCatX",
+    downloadTitle: "VoiceCatX Manager",
+    downloadDesc: "Download the official VoiceCatX Manager to install or update VoiceCatX.",
+    downloadBtn: "Download VoiceCatX Manager",
+    versionLabel: "Latest version:",
+    tutorialTitle: "Installation Tutorial",
+    tutorialSteps: [
+      "Close VoiceCatX (if open)",
+      "Create an empty folder or go to your VoiceCatX folder",
+      "Add this folder to Windows Defender exclusions",
+      "Place VoiceCatXManager.exe in this folder",
+      "Run it",
+      "If the folder is empty, clicking the button will install VoiceCatX in this folder",
+      "If VoiceCatX is already installed in this folder, it will check for a newer version and update if available"
+    ],
+    activationTitle: "Activation Key Generator",
+    activationDesc: "Enter your VoiceCatX ID below to generate an activation key.",
     placeholder: "Enter VoiceCatX ID",
     keyLabel: "Key",
     expirationLabel: "Expiration",
     generateBtn: "Generate Activation Key",
     alert: "Please enter a VoiceCatX ID",
     error: "Error generating key. Please try again.",
-    enterIdPrompt: "Enter your VoiceCatX ID below",
     previousNotExpired: "Previous activation key is not expired yet",
     usersLabel: "Users"
   },
   ru: {
-    title: "Генератор ключей активации VoiceCatX",
+    title: "VoiceCatX",
+    downloadTitle: "VoiceCatX Менеджер",
+    downloadDesc: "Скачайте официальный менеджер VoiceCatX для установки или обновления VoiceCatX.",
+    downloadBtn: "Скачать VoiceCatX Менеджер",
+    versionLabel: "Последняя версия:",
+    tutorialTitle: "Инструкция по установке",
+    tutorialSteps: [
+      "Закройте VoiceCatX (если открыт)",
+      "Создайте пустую папку или Зайдите в папку с VoiceCatX",
+      "Добавьте эту папку в исключения Защитника Windows",
+      "Положите в эту папку VoiceCatXManager.exe",
+      "Запустите",
+      "Если папка пустая при нажатии кнопки он установит VoiceCatX в эту папку",
+      "Если в папке уже установлен VoiceCatX, то будет проверена версия и если есть версия новее, то при нажатии кнопки он обновит VoiceCatX в этой папке до новой версии"
+    ],
+    activationTitle: "Генератор ключей активации",
+    activationDesc: "Введите ваш ID VoiceCatX ниже для генерации ключа активации.",
     placeholder: "Введите ID VoiceCatX",
     keyLabel: "Ключ",
     expirationLabel: "Истекает",
     generateBtn: "Сгенерировать ключ активации",
     alert: "Пожалуйста, введите ID VoiceCatX",
     error: "Ошибка генерации ключа. Пожалуйста, попробуйте снова.",
-    enterIdPrompt: "Введите ваш ID VoiceCatX ниже",
     previousNotExpired: "Предыдущий ключ активации ещё не истёк",
     usersLabel: "Пользователей"
   }
@@ -71,8 +108,23 @@ function applyLanguage(language) {
   currentLang = language;
   const t = translations[language];
   
+  // Main header
   headerText.textContent = t.title;
-  launchText.textContent = t.enterIdPrompt;
+  
+  // Download tab
+  document.getElementById('download-title').textContent = t.downloadTitle;
+  document.getElementById('download-desc').textContent = t.downloadDesc;
+  document.getElementById('download-btn').textContent = t.downloadBtn;
+  document.getElementById('version-label').textContent = t.versionLabel;
+  document.getElementById('tutorial-title').textContent = t.tutorialTitle;
+  
+  // Update tutorial steps
+  const tutorialSteps = document.querySelectorAll('#tutorial-steps li');
+  tutorialSteps.forEach((step, index) => {
+    step.textContent = t.tutorialSteps[index];
+  });
+  
+  // Activation tab
   idInput.placeholder = t.placeholder;
   generateBtn.textContent = t.generateBtn;
   
@@ -165,10 +217,10 @@ async function updateUserCount() {
     const snapshot = await db.collection('keys').get();
     const count = snapshot.size;
     const t = translations[currentLang];
-    document.getElementById('userCount').textContent = `${t.usersLabel}: ${count}`;
+    userCount.textContent = `${t.usersLabel}: ${count}`;
   } catch (error) {
     console.error("Failed to fetch user count:", error);
-    document.getElementById('userCount').textContent = `${translations[currentLang].usersLabel}: ?`;
+    userCount.textContent = `${translations[currentLang].usersLabel}: ?`;
   }
 }
 
@@ -245,6 +297,30 @@ async function generateAndSaveKey() {
   }
 }
 
+// Fetch latest version from GitHub Gist
+async function fetchLatestVersion() {
+  try {
+    const response = await fetch('https://gist.githubusercontent.com/EditedCocktail/b49f4f670a1bef5a4a855938b3bce60f/raw/vcx-update.txt');
+    const text = await response.text();
+    const json = JSON.parse(text);
+    versionValue.textContent = json.version || 'Unknown';
+  } catch (error) {
+    console.error('Failed to fetch version:', error);
+    versionValue.textContent = 'Error';
+  }
+}
+
+// Tab switching functionality
+function switchTab(tabName) {
+  tabButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabName);
+  });
+  
+  tabContents.forEach(content => {
+    content.classList.toggle('active', content.id === `${tabName}-tab`);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   langButtons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -284,6 +360,13 @@ document.addEventListener('DOMContentLoaded', function () {
     setTheme(themeNames[index]);
   });
 
+  // Tab switching
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      switchTab(btn.dataset.tab);
+    });
+  });
+
   generateBtn.addEventListener('click', generateAndSaveKey);
   idInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') generateAndSaveKey();
@@ -293,4 +376,5 @@ document.addEventListener('DOMContentLoaded', function () {
   idInput.focus();
   
   updateUserCount();
+  fetchLatestVersion();
 });

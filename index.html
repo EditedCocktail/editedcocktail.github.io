@@ -11,9 +11,8 @@
 </head>
 <body>
   <div id="launch-screen" class="fullscreen-center">
-    <img src="icon.svg" alt="VoiceCat" class="app-icon">
-    <h2 id="header-text">VoiceCatX Activation Key Generator</h2>
-    <div id="launch-text" class="launch-text">Enter your VoiceCatX ID below</div>
+    <img src="icon.svg" alt="VoiceCatX" class="app-icon">
+    <h2 id="header-text">VoiceCatX</h2>
 
     <button class="default-btn theme-btn" id="theme-btn"><i class="ph-fill ph-sun"></i></button>
     <div id="userCount" class="user-count secondary-text"></div>
@@ -22,15 +21,51 @@
       <button class="default-btn lang-option accent" data-lang="en">English</button>
       <button class="default-btn lang-option" data-lang="ru">Русский</button>
     </div>
-
-    <input class="default-input" id="idInput" placeholder="Enter VoiceCatX ID" autocomplete="off">
-
-    <div class="info-box default-input" id="infoBox">
-      Key: ???<br>
-      Expiration: ???
+    
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="download">Download</button>
+      <button class="tab-btn" data-tab="activation">Activation</button>
     </div>
 
-    <button class="default-btn" id="generateBtn">Generate Activation Key</button>
+    <!-- Download Tab -->
+    <div class="tab-content active" id="download-tab">
+      <div class="section">
+        <h3 id="download-title">VoiceCatX Manager</h3>
+        <p id="download-desc">Download the official VoiceCatX Manager to install or update VoiceCatX.</p>
+        
+        <a href="https://disk.yandex.ru/d/lwGOn7eVgP3P_A" target="_blank" class="default-btn download-btn" id="download-btn">
+          <i class="ph-fill ph-download-simple"></i> Download VoiceCatX Manager
+        </a>
+        
+        <div class="version-info" id="version-info">
+          <span id="version-label">Latest version:</span> 
+          <span id="version-value">Loading...</span>
+        </div>
+        
+        <h3 id="tutorial-title">Installation Tutorial</h3>
+        <ol class="tutorial-steps" id="tutorial-steps">
+          <li id="step0">Close VoiceCatX (if open)</li>
+          <li id="step1">Create an empty folder or go to your VoiceCatX folder</li>
+          <li id="step2">Add this folder to Windows Defender exclusions</li>
+          <li id="step3">Place VoiceCatXManager.exe in this folder</li>
+          <li id="step4">Run it</li>
+          <li id="step5">If the folder is empty, clicking the button will install VoiceCatX in this folder</li>
+          <li id="step6">If VoiceCatX is already installed in this folder, it will check for a newer version and update if available</li>
+        </ol>
+      </div>
+    </div>
+    
+    <!-- Activation Tab -->
+    <div class="tab-content" id="activation-tab">
+      <input class="default-input" id="idInput" placeholder="Enter VoiceCatX ID" autocomplete="off">
+
+      <div class="info-box default-input" id="infoBox">
+        Key: ???<br>
+        Expiration: ???
+      </div>
+
+      <button class="default-btn" id="generateBtn">Generate Activation Key</button>
+    </div>
 
     <div class="lds-dual-ring" id="loadingRing"></div>
   </div>

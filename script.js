@@ -81,6 +81,8 @@ function applyLanguage(language) {
   } else {
     infoBox.innerHTML = `${t.keyLabel}: ???<br>${t.expirationLabel}: ???`;
   }
+
+  updateUserCount();
 }
 
 // Set theme
@@ -231,6 +233,7 @@ async function generateAndSaveKey() {
     });
 
     updateInfoDisplay(key, expirationDate);
+    updateUserCount();
   } catch (error) {
     console.error('Error:', error);
     alert(translations[currentLang].error);

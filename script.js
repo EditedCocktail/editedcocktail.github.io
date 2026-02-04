@@ -70,7 +70,9 @@ const translations = {
     alert: "Please enter a VoiceCatX ID",
     error: "Error generating key. Please try again.",
     previousNotExpired: "Previous activation key is not expired yet",
-    usersLabel: "Users"
+    usersLabel: "Users",
+    tabDownload: "Download",
+    tabActivation: "Activation"
   },
   ru: {
     title: "VoiceCatX",
@@ -97,7 +99,9 @@ const translations = {
     alert: "Пожалуйста, введите ID VoiceCatX",
     error: "Ошибка генерации ключа. Пожалуйста, попробуйте снова.",
     previousNotExpired: "Предыдущий ключ активации ещё не истёк",
-    usersLabel: "Пользователей"
+    usersLabel: "Пользователей",
+    tabDownload: "Скачать",
+    tabActivation: "Активация"
   }
 };
 
@@ -123,6 +127,9 @@ function applyLanguage(language) {
   tutorialSteps.forEach((step, index) => {
     step.textContent = t.tutorialSteps[index];
   });
+
+  document.querySelector('.tab-btn[data-tab="download"]').textContent = t.tabDownload;
+  document.querySelector('.tab-btn[data-tab="activation"]').textContent = t.tabActivation;
   
   // Activation tab
   idInput.placeholder = t.placeholder;

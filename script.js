@@ -71,7 +71,7 @@ function applyLanguage(language) {
   if (currentKey && currentExpirationDate) {
     updateInfoDisplay(currentKey, currentExpirationDate);
   } else {
-    infoBox.innerHTML = `${t.keyLabel}: ???<br>${t.expirationLabel}: ???`;
+    updateInfoDisplay('???', '???');
   }
 }
 
@@ -81,7 +81,6 @@ function setTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('voicecatx-theme', theme);
   
-  // Update icon
   const iconIndex = themeNames.indexOf(theme);
   themeBtn.innerHTML = `<i class="ph-fill ph-${themeIcons[iconIndex]}"></i>`;
 }

@@ -277,7 +277,7 @@ async function generateAndSaveKey() {
       const data = docSnap.data();
       const expirationMs = data.expiration;
 
-      if (expirationMs > currentMs + HALF_MONTH_MS / 2) {
+      if (expirationMs > currentMs + ONE_MONTH_MS / 2) {
         const expirationDate = formatDate(expirationMs);
         const t = translations[currentLang];
         infoBox.innerHTML = `${t.previousNotExpired}<br>${t.keyLabel}: ${data.key}<br>${t.expirationLabel}: ${expirationDate}`;

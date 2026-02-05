@@ -69,6 +69,7 @@ const translations = {
     expirationLabel: "Expiration",
     generateBtn: "Generate Activation Key",
     alert: "Please enter a VoiceCatX ID",
+    invalidId: "Inputed text is not a valid VoiceCatX ID.",
     error: "Error generating key. Please try again.",
     previousNotExpired: "Previous activation key is not expired yet",
     usersLabel: "Users",
@@ -97,6 +98,7 @@ const translations = {
     expirationLabel: "Истекает",
     generateBtn: "Сгенерировать ключ активации",
     alert: "Пожалуйста, введите ID VoiceCatX",
+    invalidId: "Введённый текст не является ID VoiceCatX.",
     error: "Ошибка генерации ключа. Пожалуйста, попробуйте снова.",
     previousNotExpired: "Предыдущий ключ активации ещё не истёк",
     usersLabel: "Пользователей",
@@ -107,13 +109,9 @@ const translations = {
 
 let currentLang = 'en';
 
-async function triggerDownloadFromYandexLink(publicLink) {
-  const directLink = await generateYandexDirectLink(publicLink);
-  const a = document.createElement('a');
-  a.href = directLink;
-  a.download = '';
-  document.body.appendChild(a);
-  a.click();
+function isValidUUIDv4(str) {
+  const uuidv4Pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidv4Pattern.test(str);
 }
 
 // Apply language
@@ -258,6 +256,11 @@ async function generateAndSaveKey() {
   const id = idInput.value.trim();
   if (!id) {
     alert(translations[currentLang].alert);
+    return;
+  }
+
+  if (!isValidUUIDv4(id)) {
+    alert(translations[currentLang].invalidId);
     return;
   }
 

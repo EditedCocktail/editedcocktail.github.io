@@ -13,6 +13,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const MANAGER_YANDEX_LINK = "https://disk.yandex.ru/d/lwGOn7eVgP3P_A";
+const ANDROID_YANDEX_LINK = "https://disk.yandex.ru/d/2xuohWkiNtz_sw";
 
 // Constants
 const B32_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
@@ -52,6 +53,7 @@ const translations = {
     downloadTitle: "VoiceCatX Manager",
     downloadDesc: "Download the official VoiceCatX Manager to install or update VoiceCatX.",
     downloadBtn: "Download VoiceCatX Manager",
+    downloadBtnAndroid: "Download VoiceCatX Android",
     versionLabel: "Latest version:",
     tutorialTitle: "Installation Tutorial",
     tutorialSteps: [
@@ -81,6 +83,7 @@ const translations = {
     downloadTitle: "VoiceCatX Менеджер",
     downloadDesc: "Скачайте официальный менеджер VoiceCatX для установки или обновления VoiceCatX.",
     downloadBtn: "Скачать VoiceCatX Менеджер",
+    downloadBtnAndroid: "Скачать VoiceCatX Android",
     versionLabel: "Последняя версия:",
     tutorialTitle: "Инструкция по установке",
     tutorialSteps: [
@@ -124,6 +127,7 @@ function applyLanguage(language) {
   document.getElementById('download-title').textContent = t.downloadTitle;
   document.getElementById('download-desc').textContent = t.downloadDesc;
   document.getElementById('download-btn').textContent = t.downloadBtn;
+  document.getElementById('download-btn-android').textContent = t.downloadBtnAndroid;
   document.getElementById('version-label').textContent = t.versionLabel;
   document.getElementById('tutorial-title').textContent = t.tutorialTitle;
   
@@ -341,6 +345,10 @@ function switchTab(tabName) {
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('download-btn').addEventListener('click', () => {
     window.open(MANAGER_YANDEX_LINK, '_blank');
+  });
+
+  document.getElementById('download-btn-android').addEventListener('click', () => {
+    window.open(ANDROID_YANDEX_LINK, '_blank');
   });
   
   document.getElementById('version-value').addEventListener('click', () => {

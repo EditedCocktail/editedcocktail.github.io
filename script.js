@@ -114,7 +114,17 @@ let currentLang = 'en';
 
 function isValidUUIDv4(str) {
   const uuidv4Pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  return uuidv4Pattern.test(str);
+  
+  if (uuidv4Pattern.test(str)) {
+    return true;
+  }
+
+  if (str.startsWith('mobile-')) {
+    const uuidPart = str.substring(7);
+    return uuidv4Pattern.test(uuidPart);
+  }
+
+  return false;
 }
 
 // Apply language

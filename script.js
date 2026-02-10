@@ -126,8 +126,8 @@ function applyLanguage(language) {
 
   document.getElementById('download-title').textContent = t.downloadTitle;
   document.getElementById('download-desc').textContent = t.downloadDesc;
-  document.getElementById('download-btn').textContent = t.downloadBtn;
-  document.getElementById('download-btn-android').textContent = t.downloadBtnAndroid;
+  document.getElementById('download-btn').innerHTML = `<i class="ph-fill ph-download-simple"></i> <span id="download-btn-text">${t.downloadBtn}</span>`;
+  document.getElementById('download-btn-android').innerHTML = `<i class="ph-fill ph-download-simple"></i> <span id="download-btn-text">${t.downloadBtnAndroid}</span>`;
   document.getElementById('version-label').textContent = t.versionLabel;
   document.getElementById('tutorial-title').textContent = t.tutorialTitle;
   

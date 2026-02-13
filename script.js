@@ -340,7 +340,6 @@ async function fetchLatestVersion() {
   }
 }
 
-// Tab switching functionality
 function switchTab(tabName) {
   tabButtons.forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === tabName);

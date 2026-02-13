@@ -13,7 +13,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const MANAGER_YANDEX_LINK = "https://disk.yandex.ru/d/lwGOn7eVgP3P_A";
-const ANDROID_YANDEX_LINK = "https://disk.yandex.ru/d/2xuohWkiNtz_sw";
 
 // Constants
 const B32_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
@@ -358,7 +357,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   document.getElementById('download-btn-android').addEventListener('click', () => {
-    window.open(ANDROID_YANDEX_LINK, '_blank');
+    if (latestGistData && latestGistData.androidLink) {
+      window.open(latestGistData.androidLink, '_blank');
+    }
   });
   
   document.getElementById('version-value').addEventListener('click', () => {

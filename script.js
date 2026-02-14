@@ -76,6 +76,7 @@ const translations = {
     usersLabel: "Users",
     tabDownload: "Download",
     tabActivation: "Activation",
+    tabChangelog: "Changelog",
     changelogTitle: "Changelog"
   },
   ru: {
@@ -107,6 +108,7 @@ const translations = {
     usersLabel: "Пользователей",
     tabDownload: "Скачать",
     tabActivation: "Активация",
+    tabChangelog: "Изменения",
     changelogTitle: "Список изменений"
   }
 };
@@ -150,7 +152,7 @@ function applyLanguage(language) {
 
   document.querySelector('.tab-btn[data-tab="download"]').textContent = t.tabDownload;
   document.querySelector('.tab-btn[data-tab="activation"]').textContent = t.tabActivation;
-  document.querySelector('.tab-btn[data-tab="changelog"]').textContent = t.changelogTitle;
+  document.querySelector('.tab-btn[data-tab="changelog"]').textContent = t.tabChangelog;
   
   idInput.placeholder = t.placeholder;
   generateBtn.textContent = t.generateBtn;

@@ -338,8 +338,7 @@ async function fetchLatestVersion() {
     latestGistData = json;
     versionValue.textContent = json.version || 'Unknown';
   } catch (error) {
-    console.error('Failed to fetch version:', error);
-    versionValue.textContent = 'Error';
+    versionValue.textContent = '...';
     latestGistData = null;
   }
 }
@@ -348,13 +347,10 @@ async function fetchLatestVersion() {
 async function fetchChangelog() {
   try {
     const response = await fetch('https://gist.githubusercontent.com/EditedCocktail/c2e451d0b547782dd72bf494fe13bb1f/raw/vcx-changelog.txt');
-    if (!response.ok) throw new Error('Failed to load changelog');
+    if (!response.ok) return;
     const text = await response.text();
     document.getElementById('changelog-content').innerHTML = `<pre class="changelog-text">${text}</pre>`;
-  } catch (error) {
-    console.error('Error loading changelog:', error);
-    document.getElementById('changelog-content').innerHTML = '<p>Failed to load changelog.</p>';
-  }
+  } catch (error) {}
 }
 
 function switchTab(tabName) {

@@ -75,7 +75,8 @@ const translations = {
     previousNotExpired: "Previous activation key is not expired yet",
     usersLabel: "Users",
     tabDownload: "Download",
-    tabActivation: "Activation"
+    tabActivation: "Activation",
+    changelogTitle: "Changelog"
   },
   ru: {
     title: "VoiceCatX",
@@ -105,7 +106,8 @@ const translations = {
     previousNotExpired: "Предыдущий ключ активации ещё не истёк",
     usersLabel: "Пользователей",
     tabDownload: "Скачать",
-    tabActivation: "Активация"
+    tabActivation: "Активация",
+    changelogTitle: "Список изменений"
   }
 };
 
@@ -139,6 +141,7 @@ function applyLanguage(language) {
   document.getElementById('download-btn-android').innerHTML = `<i class="ph-fill ph-download-simple"></i> <span id="download-btn-text">${t.downloadBtnAndroid}</span>`;
   document.getElementById('version-label').textContent = t.versionLabel;
   document.getElementById('tutorial-title').textContent = t.tutorialTitle;
+  document.getElementById('changelog-title').textContent = t.changelogTitle;
   
   const tutorialSteps = document.querySelectorAll('#tutorial-steps li');
   tutorialSteps.forEach((step, index) => {
@@ -340,6 +343,19 @@ async function fetchLatestVersion() {
   }
 }
 
+// Fetch and display changelog
+async function fetchChangelog() {
+  try {
+    const response = await fetch('https://gist.githubusercontent.com/EditedCocktail/c2e451d0b547782dd72bf494fe13bb1f/raw/vcx-changelog.txt');
+    if (!response.ok) throw new Error('Failed to load changelog');
+    const text = await response.text();
+    document.getElementById('changelog-content').innerHTML = `<pre class="changelog-text">${text}</pre>`;
+  } catch (error) {
+    console.error('Error loading changelog:', error);
+    document.getElementById('changelog-content').innerHTML = '<p>Failed to load changelog.</p>';
+  }
+}
+
 function switchTab(tabName) {
   tabButtons.forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === tabName);
@@ -422,4 +438,5 @@ document.addEventListener('DOMContentLoaded', function () {
   
   updateUserCount();
   fetchLatestVersion();
+  fetchChangelog();
 });

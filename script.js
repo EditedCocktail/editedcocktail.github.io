@@ -150,6 +150,7 @@ function applyLanguage(language) {
 
   document.querySelector('.tab-btn[data-tab="download"]').textContent = t.tabDownload;
   document.querySelector('.tab-btn[data-tab="activation"]').textContent = t.tabActivation;
+  document.querySelector('.tab-btn[data-tab="changelog"]').textContent = t.changelogTitle;
   
   idInput.placeholder = t.placeholder;
   generateBtn.textContent = t.generateBtn;

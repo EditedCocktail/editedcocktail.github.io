@@ -17,10 +17,6 @@
     </div>
 
     <button class="default-btn theme-btn" id="theme-btn"><i class="ph-fill ph-sun"></i></button>
-    <div class="bottom-bar">
-      <div id="userCount" class="user-count secondary-text"></div>
-      <div class="author secondary-text">@editely</div>
-    </div>
     
     <div class="language-selector">
       <button class="default-btn lang-option accent" data-lang="en">English</button>
@@ -74,6 +70,7 @@
       </div>
 
       <button class="default-btn" id="generateBtn">Generate Activation Key</button>
+      <div class="lds-dual-ring" id="loadingRing"></div>
     </div>
 
     <!-- Changelog Tab -->
@@ -85,8 +82,11 @@
         </div>
       </div>
     </div>
-
-    <div class="lds-dual-ring" id="loadingRing"></div>
+    
+    <div class="bottom-bar">
+      <div id="userCount" class="user-count secondary-text"></div>
+      <div class="author secondary-text">@editely</div>
+    </div>
   </div>
 
   <!-- Firebase -->

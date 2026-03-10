@@ -44,6 +44,7 @@ const versionValue = document.getElementById('version-value');
 let currentKey = null;
 let currentExpirationDate = null;
 let latestGistData = null;
+let cachedUserCount = null;
 
 // Translations
 const translations = {
@@ -163,7 +164,7 @@ function applyLanguage(language) {
     infoBox.innerHTML = `${t.keyLabel}: ???<br>${t.expirationLabel}: ???`;
   }
 
-  updateUserCount();
+  updateUserCountDisplay();
 }
 
 // Set theme
@@ -240,16 +241,26 @@ function encodeActivationKey(expirationMs, idStr) {
   return base32Encode(encrypted);
 }
 
-// Update user count display
-async function updateUserCount() {
+// Update user count
+async function fetchUserCount() {
   try {
     const snapshot = await db.collection('keys').get();
-    const count = snapshot.size;
-    const t = translations[currentLang];
-    userCount.textContent = `${t.usersLabel}: ${count}`;
+    cachedUserCount = snapshot.size;
+    updateUserCountDisplay();
   } catch (error) {
     console.error("Failed to fetch user count:", error);
-    userCount.textContent = `${translations[currentLang].usersLabel}: ?`;
+    cachedUserCount = null;
+    updateUserCountDisplay();
+  }
+}
+
+// Update user count display
+function updateUserCountDisplay() {
+  const t = translations[currentLang];
+  if (cachedUserCount !== null) {
+    userCount.textContent = `${t.usersLabel}: ${cachedUserCount}`;
+  } else {
+    userCount.textContent = `${t.usersLabel}: ?`;
   }
 }
 
@@ -319,7 +330,7 @@ async function generateAndSaveKey() {
     });
 
     updateInfoDisplay(key, expirationDate);
-    updateUserCount();
+    await fetchUserCount();
   } catch (error) {
     console.error('Error:', error);
     alert(translations[currentLang].error);
@@ -435,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function () {
   applyLanguage(currentLang);
   idInput.focus();
   
-  updateUserCount();
+  await fetchUserCount();
   fetchLatestVersion();
   fetchChangelog();
 });

@@ -376,7 +376,7 @@ function switchTab(tabName) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   document.getElementById('download-btn').addEventListener('click', () => {
     window.open(MANAGER_YANDEX_LINK, '_blank');
   });

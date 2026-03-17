@@ -60,7 +60,7 @@ const translations = {
       "Create an empty folder or go to your VoiceCatX folder",
       "Add this folder to Windows Defender exclusions",
       "Place VoiceCatXManager.exe in this folder",
-      "Run it",
+      "Install RadminVPN and Run it",
       "If the folder is empty, clicking the button will install VoiceCatX in this folder",
       "If VoiceCatX is already installed in this folder, it will check for a newer version and update if available"
     ],
@@ -92,7 +92,7 @@ const translations = {
       "Создайте пустую папку или Зайдите в папку с VoiceCatX",
       "Добавьте эту папку в исключения Защитника Windows",
       "Положите в эту папку VoiceCatXManager.exe",
-      "Запустите",
+      "Установите RadminVPN и Запустите",
       "Если папка пустая при нажатии кнопки он установит VoiceCatX в эту папку",
       "Если в папке уже установлен VoiceCatX, то будет проверена версия и если есть версия новее, то при нажатии кнопки он обновит VoiceCatX в этой папке до новой версии"
     ],

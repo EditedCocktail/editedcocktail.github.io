@@ -345,16 +345,12 @@ async function generateAndSaveKey() {
 // Fetch latest version from GitHub Gist
 async function fetchLatestVersion() {
   try {
-    const targetUrl = 'https://gitlab.com/-/snippets/6002630/raw/main/vcx-update.txt';
-    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
-    
-    const response = await fetch(proxyUrl);
+    const response = await fetch('https://gitlab.com/api/v4/snippets/6002630/files/main/vcx-update.txt/raw');
     const text = await response.text();
     const json = JSON.parse(text);
     latestGistData = json;
     versionValue.textContent = json.version || 'Unknown';
   } catch (error) {
-    console.error("Failed to fetch version:", error);
     versionValue.textContent = '...';
     latestGistData = null;
   }
@@ -363,10 +359,7 @@ async function fetchLatestVersion() {
 // Fetch and display changelog
 async function fetchChangelog() {
   try {
-    const targetUrl = 'https://gitlab.com/-/snippets/6002630/raw/main/vcx-changelog.txt';
-    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
-    
-    const response = await fetch(proxyUrl);
+    const response = await fetch('https://gitlab.com/api/v4/snippets/6002630/files/main/vcx-changelog.txt/raw');
     if (!response.ok) return;
     const text = await response.text();
     document.getElementById('changelog-content').innerHTML = `<pre class="changelog-text">${text}</pre>`;

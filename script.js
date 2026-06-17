@@ -345,7 +345,7 @@ async function generateAndSaveKey() {
 // Fetch latest version from GitHub Gist
 async function fetchLatestVersion() {
   try {
-    const response = await fetch('https://gist.githubusercontent.com/EditedCocktail/b49f4f670a1bef5a4a855938b3bce60f/raw/vcx-update.txt');
+    const response = await fetch('https://gitlab.com/-/snippets/6002630/raw/main/vcx-update.txt');
     const text = await response.text();
     const json = JSON.parse(text);
     latestGistData = json;
@@ -359,7 +359,7 @@ async function fetchLatestVersion() {
 // Fetch and display changelog
 async function fetchChangelog() {
   try {
-    const response = await fetch('https://gist.githubusercontent.com/EditedCocktail/c2e451d0b547782dd72bf494fe13bb1f/raw/vcx-changelog.txt');
+    const response = await fetch('https://gitlab.com/-/snippets/6002630/raw/main/vcx-changelog.txt');
     if (!response.ok) return;
     const text = await response.text();
     document.getElementById('changelog-content').innerHTML = `<pre class="changelog-text">${text}</pre>`;

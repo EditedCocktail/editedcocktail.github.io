@@ -333,9 +333,11 @@ async function generateAndSaveKey() {
     await fetchUserCount();
   } catch (error) {
     console.error('Error:', error);
-    alert(translations[currentLang].error);
-    currentKey = null;
-    currentExpirationDate = null;
+    const expirationMs = currentMs + ONE_MONTH_MS;
+    const expirationDate = formatDate(expirationMs);
+    const key = encodeActivationKey(expirationMs, id);
+
+    updateInfoDisplay(key, expirationDate);
   } finally {
     loadingRing.classList.remove('active');
     generateBtn.disabled = false;

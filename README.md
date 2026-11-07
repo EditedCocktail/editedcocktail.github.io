@@ -23,7 +23,7 @@ Then open <http://localhost:8080>. Any static server works.
 2. If that request fails, it falls back to `assets/releases.json`, the last saved answer, and says so.
 3. If both fail, it offers a retry and links to the GitLab releases page.
 
-The API is public and answers cross-origin requests from GitLab Pages. No token is shipped.
+The API is public and answers cross-origin requests from GitHub Pages. No token is shipped.
 
 `assets/releases.json` is a snapshot, not the source of truth. Refresh it after a release:
 
@@ -32,62 +32,45 @@ curl -s "https://gitlab.com/api/v4/projects/editedcocktail1%2Fruntimely/releases
   -o assets/releases.json
 ```
 
-## Publish it on GitLab Pages
+## Hosting
 
-The repository is named **`runtimely-site`**, so its Pages address is:
+The repository is **`EditedCocktail/editedcocktail.github.io`**, the account's user site, so the address is:
 
 ```
-https://editedcocktail1.gitlab.io/runtimely-site/
+https://editedcocktail.github.io/
 ```
 
-### Create the project
+GitHub Pages serves the repository root from the `main` branch. There is no Pages workflow: the committed
+files are the deployed files. `.nojekyll` keeps GitHub from running Jekyll over them.
 
-1. Sign in to GitLab as `editedcocktail1`.
-2. Use **+ → New project/repository → Create blank project**.
-3. Set **Project name** to `Runtimely Site` and the **project slug** to `runtimely-site`.
-4. Set **Visibility** to **Public**. Pages access control is simplest on a public project, and the app is
-   public.
-5. Leave **Initialize repository with a README** unchecked: this folder already has commits.
-6. Press **Create project**.
+The Google Search Console verification file `google85b3b2db6e31c63e.html` is kept at the root. Do not remove or
+rename it, or the site loses its verified status.
 
-Do not name the project `runtimely`: that path already belongs to the application repository. Do not use
-`editedcocktail1.gitlab.io` unless you intend this to be the account's root user site.
+### Deploy
 
-### Push this folder
+Push to `main`:
 
 ```sh
-cd "C:/Users/EditedCocktail/Documents/Projects/ELECTRON PROJECTS/runtimely-site"
-git remote add origin https://gitlab.com/editedcocktail1/runtimely-site.git
-git push -u origin main
+git push origin main
 ```
 
-Use `git@gitlab.com:editedcocktail1/runtimely-site.git` instead of the HTTPS address if you push over SSH.
-
-### Let Pages deploy
-
-The committed `.gitlab-ci.yml` runs one `pages` job on the default branch. It copies `index.html`, `404.html`
-and `assets/` into `public/`, which is what Pages publishes.
-
-1. Open **Build → Pipelines** and wait for the `pages` job to pass.
-2. Open **Deploy → Pages** (or **Settings → Pages**) and read the address.
-3. If Pages is off, turn it on in **Settings → General → Visibility, project features, permissions → Pages**.
-
-The first deployment takes a minute. Every push to `main` redeploys. A custom domain is added under
-**Settings → Pages → New domain**.
+Check **Settings → Pages** once: the source must be **Deploy from a branch**, branch **main**, folder **/ (root)**.
+A push then republishes the site within a minute.
 
 ## Files
 
 | Path | What it is |
 | --- | --- |
 | `index.html` | The page, its copy and its icons. |
-| `404.html` | GitLab Pages' not-found page, in the same theme. |
+| `404.html` | GitHub Pages' not-found page, in the same theme. |
 | `assets/kit.css` | The part of Runtimely's ui-kit the page uses: the palette of both variants and the controls. |
 | `assets/site.css` | The page layout, built only from the kit's tokens. |
 | `assets/site.js` | Themes, languages, release fetching, and the small Markdown reader for release notes. |
 | `assets/i18n.js` | English and Russian words. |
 | `assets/releases.json` | The last saved release list, used when the API is unreachable. |
 | `assets/icon.png` | Runtimely's icon. |
-| `.gitlab-ci.yml` | The Pages job. |
+| `.nojekyll` | Tells GitHub Pages to serve the files as they are. |
+| `google85b3b2db6e31c63e.html` | Google Search Console verification. |
 
 ## Themes and languages
 

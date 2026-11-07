@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Runtimely — a launcher for Windows</title>
+  <meta name="description" content="A launcher that runs every app against one Electron engine, with its own library, tray, settings and updates.">
+  <meta name="theme-color" content="#121212">
+  <meta property="og:title" content="Runtimely — a launcher for Windows">
+  <meta property="og:description" content="A launcher that runs every app against one Electron engine, with its own library, tray, settings and updates.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/icon.png" type="image/png">
+  <link rel="stylesheet" href="assets/kit.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script>
+    (() => {
+      try {
+        const theme = localStorage.getItem('runtimely-site-theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+        const stored = localStorage.getItem('runtimely-site-lang');
+        const language = stored === 'ru' || stored === 'en'
+          ? stored
+          : (String(navigator.language ?? 'en').toLowerCase().startsWith('ru') ? 'ru' : 'en');
+        document.documentElement.lang = language;
+      } catch {
+        // Storage is a convenience, not a condition for the page to paint.
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#releases" data-i18n="a11y.skip">Skip to content</a>
+
+  <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+    <symbol id="i-download" viewBox="0 0 24 24">
+      <path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-package" viewBox="0 0 24 24">
+      <path d="M21 8 12 3 3 8v8l9 5 9-5V8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="m3 8 9 5 9-5M12 13v8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="./" aria-label="Runtimely">
+        <img class="brand-mark" src="assets/icon.png" alt="" width="32" height="32">
+        <span>Runtimely</span>
+      </a>
+      <nav class="site-nav">
+        <a href="#releases" data-i18n="nav.releases">Releases</a>
+        <a href="#latest" data-i18n="nav.download">Download</a>
+        <a href="https://gitlab.com/editedcocktail1/runtimely" data-i18n="nav.source">Source</a>
+      </nav>
+      <div class="header-controls">
+        <div class="segmented" role="group" aria-label="Theme" data-i18n-aria="theme.label">
+          <button type="button" class="segmented-button" data-theme-set="dark" aria-pressed="true" aria-label="Dark" title="Dark" data-i18n-aria="theme.dark" data-i18n-title="theme.dark">
+            <svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg>
+          </button>
+          <button type="button" class="segmented-button" data-theme-set="light" aria-pressed="false" aria-label="Light" title="Light" data-i18n-aria="theme.light" data-i18n-title="theme.light">
+            <svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg>
+          </button>
+        </div>
+        <label class="lang-field">
+          <span class="visually-hidden" data-i18n="language">Language</span>
+          <select id="language" class="site-select" aria-label="Language" data-i18n-aria="language">
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+          </select>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <span class="eyebrow" data-i18n="hero.eyebrow">Windows launcher</span>
+        <h1 data-i18n="site.tagline">One engine, every app.</h1>
+        <p class="lead" data-i18n="site.description">A launcher that runs every app against one Electron engine, with its own library, tray, settings and updates.</p>
+        <div class="hero-actions">
+          <a class="btn btn-accent" id="hero-download" href="https://gitlab.com/editedcocktail1/runtimely/-/releases/permalink/latest/downloads/Runtimely.zip">
+            <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+            <span data-i18n="hero.download">Download for Windows</span>
+          </a>
+          <a class="btn" href="#releases">
+            <span data-i18n="hero.viewReleases">Release history</span>
+          </a>
+        </div>
+        <p class="hero-note" data-i18n="hero.note">Windows 10 and 11 · x64 · no installer</p>
+      </div>
+
+      <aside class="latest-card panel" id="latest" aria-labelledby="latest-label">
+        <div class="latest-top">
+          <span class="panel-hint" id="latest-label" data-i18n="aside.latest">Latest version</span>
+          <span class="chip chip-accent" data-i18n="releases.latest">Latest</span>
+        </div>
+        <span class="latest-version" id="latest-version">—</span>
+        <span class="latest-date" id="latest-date">—</span>
+        <div class="latest-actions">
+          <a class="btn btn-accent" id="latest-download" href="https://gitlab.com/editedcocktail1/runtimely/-/releases/permalink/latest/downloads/Runtimely.zip">
+            <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+            <span data-i18n="aside.download">Download</span>
+          </a>
+          <a class="btn" id="latest-plugins" href="https://gitlab.com/editedcocktail1/runtimely/-/releases/permalink/latest/downloads/plugins.zip">
+            <svg class="icon" aria-hidden="true"><use href="#i-package"/></svg>
+            <span data-i18n="aside.plugins">Plugin pack</span>
+          </a>
+        </div>
+        <p class="panel-hint latest-note" data-i18n="aside.requirementsText">Windows 10 or 11, 64-bit. Extract the archive and run Runtimely.exe.</p>
+      </aside>
+    </section>
+
+    <section class="releases wrap" id="releases" aria-labelledby="releases-title">
+      <header class="section-head">
+        <div>
+          <h2 id="releases-title" data-i18n="releases.title">Release history</h2>
+          <p data-i18n="releases.subtitle">Every release and what changed in it.</p>
+        </div>
+        <p class="panel-hint" data-i18n="releases.notesLanguage">Release notes are published in English.</p>
+      </header>
+      <div class="release-list" id="releases-list" aria-live="polite">
+        <p class="status" data-i18n="releases.loading">Loading releases…</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span data-i18n="footer.built">Built by Editely</span>
+      <nav class="footer-links">
+        <a href="https://gitlab.com/editedcocktail1/runtimely" data-i18n="footer.app">App source</a>
+        <a href="https://gitlab.com/editedcocktail1/runtimely/-/releases" data-i18n="footer.releases">All releases</a>
+        <a href="https://gitlab.com/editedcocktail1/runtimely-site" data-i18n="footer.site">Website source</a>
+        <a href="https://gitlab.com/editedcocktail1/runtimely/-/blob/main/LICENSE" data-i18n="footer.license">Licence</a>
+      </nav>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="wrap">This page needs JavaScript to read the release history. The downloads are still available on <a href="https://gitlab.com/editedcocktail1/runtimely/-/releases">GitLab</a>.</p>
+  </noscript>
+
+  <script src="assets/i18n.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

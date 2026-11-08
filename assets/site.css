@@ -344,6 +344,53 @@ a:hover {
   justify-self: end;
 }
 
+.tutorial {
+  padding-block: 0 clamp(2rem, 4vw, 3rem);
+}
+
+.tutorial-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tutorial-step {
+  align-content: start;
+  gap: var(--space-sm);
+}
+
+.tutorial-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: var(--size-border) solid var(--color-accent);
+  border-radius: 50%;
+  color: var(--color-accent);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.tutorial-step h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+.tutorial-step p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
 .releases {
   padding-block: 0 clamp(3rem, 6vw, 5rem);
   scroll-margin-top: 5rem;

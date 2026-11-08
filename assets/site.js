@@ -23,6 +23,7 @@
     latestVersion: document.querySelector('#latest-version'),
     latestDate: document.querySelector('#latest-date'),
     latestSummary: document.querySelector('#latest-summary'),
+    latestCounts: document.querySelector('#latest-counts'),
     latestDownload: document.querySelector('#latest-download'),
     latestPlugins: document.querySelector('#latest-plugins'),
     heroDownload: document.querySelector('#hero-download'),
@@ -342,12 +343,48 @@
     return first === undefined || first.startsWith('#') ? '' : first;
   }
 
+  /**
+   * How many list items each section of the release notes holds, in the order the sections appear.
+   */
+  function sectionCounts(description) {
+    const sections = [];
+    let section = null;
+    for (const raw of String(description ?? '').replace(/\r\n?/gu, '\n').split('\n')) {
+      const line = raw.trim();
+      const heading = /^#{2,4}\s+(.*)$/u.exec(line);
+      if (heading !== null) {
+        section = { name: heading[1], count: 0 };
+        sections.push(section);
+        continue;
+      }
+      if (section !== null && /^[-*]\s+/u.test(line)) section.count += 1;
+    }
+    return sections.filter((one) => one.count > 0);
+  }
+
+  function renderLatestCounts(description) {
+    const counts = sectionCounts(description);
+    nodes.latestCounts.replaceChildren(...counts.map(({ name, count }) => {
+      const item = document.createElement('li');
+      item.className = 'latest-count';
+      const label = document.createElement('span');
+      label.textContent = `${name}:`;
+      const value = document.createElement('strong');
+      value.textContent = String(count);
+      item.append(label, value);
+      return item;
+    }));
+    nodes.latestCounts.hidden = counts.length === 0;
+  }
+
   function renderLatest(release) {
     if (release === null || release === undefined) {
       nodes.latestVersion.textContent = '—';
       nodes.latestDate.textContent = '—';
       nodes.latestSummary.textContent = '';
       nodes.latestSummary.hidden = true;
+      nodes.latestCounts.replaceChildren();
+      nodes.latestCounts.hidden = true;
       nodes.latestDownload.href = `${LATEST}${INSTALLER}`;
       nodes.latestPlugins.href = `${LATEST}${PLUGINS}`;
       nodes.heroDownload.href = `${LATEST}${INSTALLER}`;
@@ -358,6 +395,7 @@
     nodes.latestDate.textContent = formatDate(release.released_at);
     nodes.latestSummary.textContent = summary;
     nodes.latestSummary.hidden = summary === '';
+    renderLatestCounts(release.description);
     const installer = hrefOf(installerLink(state.releases)) ?? `${LATEST}${INSTALLER}`;
     const plugins = hrefOf(linkNamed(release, PLUGINS)) ?? `${LATEST}${PLUGINS}`;
     nodes.latestDownload.href = installer;

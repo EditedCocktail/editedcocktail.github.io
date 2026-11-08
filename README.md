@@ -23,6 +23,11 @@ Then open <http://localhost:8080>. Any static server works.
 2. If that request fails, it falls back to `assets/releases.json`, the last saved answer, and says so.
 3. If both fail, it offers a retry and links to the GitLab releases page.
 
+The Windows download follows the newest release that actually ships the app: a release that only changes
+plugins carries `plugins.zip` alone, so the install buttons stay on the last release with `Runtimely.zip`
+while the Plugin pack button always takes the latest release's pack. A first install of the older bundle
+updates its plugins on launch.
+
 The API is public and answers cross-origin requests from GitHub Pages. No token is shipped.
 
 `assets/releases.json` is a snapshot, not the source of truth. Refresh it after a release:

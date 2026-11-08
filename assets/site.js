@@ -109,6 +109,18 @@
     return links.find((one) => one?.name === name) ?? null;
   }
 
+  /**
+   * The newest release that carries a host bundle. A release that only moves plugins has no Runtimely.zip,
+   * so the download stays with the last release that shipped the app itself.
+   */
+  function installerLink(releases) {
+    for (const release of releases) {
+      const link = linkNamed(release, INSTALLER);
+      if (link !== null) return link;
+    }
+    return null;
+  }
+
   function hrefOf(link) {
     if (link === null) return null;
     return link.direct_asset_url ?? link.url ?? null;
@@ -325,7 +337,7 @@
     }
     nodes.latestVersion.textContent = release.tag_name;
     nodes.latestDate.textContent = formatDate(release.released_at);
-    const installer = hrefOf(linkNamed(release, INSTALLER)) ?? `${LATEST}${INSTALLER}`;
+    const installer = hrefOf(installerLink(state.releases)) ?? `${LATEST}${INSTALLER}`;
     const plugins = hrefOf(linkNamed(release, PLUGINS)) ?? `${LATEST}${PLUGINS}`;
     nodes.latestDownload.href = installer;
     nodes.heroDownload.href = installer;

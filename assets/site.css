@@ -261,6 +261,7 @@ a:hover {
   overflow: hidden;
   border: var(--size-border) solid var(--color-border);
   box-shadow: 0 24px 60px -38px var(--shadow-color);
+  align-self: stretch;
 }
 
 .latest-card::before {
@@ -296,17 +297,20 @@ a:hover {
 .latest-actions {
   display: grid;
   gap: var(--space-sm);
-  margin-top: var(--space-sm);
+  margin-top: auto;
 }
 
 .latest-actions .btn {
   width: 100%;
 }
 
-.latest-note {
-  margin-top: var(--space-sm);
-  padding-top: var(--space-md);
-  border-top: var(--size-border) solid var(--color-divider);
+.latest-summary {
+  margin: auto 0 0;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  text-wrap: pretty;
 }
 
 .releases {
@@ -407,7 +411,7 @@ a:hover {
 }
 
 .release-notes h4 {
-  margin: var(--space-lg) 0 var(--space-sm);
+  margin: var(--space-lg) 0 var(--space-xs);
   color: var(--color-text);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
@@ -419,10 +423,14 @@ a:hover {
   margin: var(--space-sm) 0;
 }
 
+.release-notes > :first-child {
+  margin-top: 0;
+}
+
 .release-notes ul {
   display: grid;
   gap: var(--space-sm);
-  margin: var(--space-sm) 0;
+  margin: 0 0 var(--space-sm);
   padding: 0;
   list-style: none;
 }

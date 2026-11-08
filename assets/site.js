@@ -22,6 +22,7 @@
     list: document.querySelector('#releases-list'),
     latestVersion: document.querySelector('#latest-version'),
     latestDate: document.querySelector('#latest-date'),
+    latestSummary: document.querySelector('#latest-summary'),
     latestDownload: document.querySelector('#latest-download'),
     latestPlugins: document.querySelector('#latest-plugins'),
     heroDownload: document.querySelector('#hero-download'),
@@ -255,7 +256,10 @@
       fragment.append(pre);
     }
     flushParagraph();
-    return fragment;
+    const body = document.createElement('div');
+    body.className = 'release-notes';
+    body.append(fragment);
+    return body;
   }
 
   function icon(name) {
@@ -326,17 +330,34 @@
     return p;
   }
 
+  /**
+   * The release description's first line, when it is a headline rather than a section heading.
+   */
+  function headlineOf(description) {
+    const first = String(description ?? '')
+      .replace(/\r\n?/gu, '\n')
+      .split('\n')
+      .map((line) => line.trim())
+      .find((line) => line !== '');
+    return first === undefined || first.startsWith('#') ? '' : first;
+  }
+
   function renderLatest(release) {
     if (release === null || release === undefined) {
       nodes.latestVersion.textContent = '—';
       nodes.latestDate.textContent = '—';
+      nodes.latestSummary.textContent = '';
+      nodes.latestSummary.hidden = true;
       nodes.latestDownload.href = `${LATEST}${INSTALLER}`;
       nodes.latestPlugins.href = `${LATEST}${PLUGINS}`;
       nodes.heroDownload.href = `${LATEST}${INSTALLER}`;
       return;
     }
+    const summary = headlineOf(release.description);
     nodes.latestVersion.textContent = release.tag_name;
     nodes.latestDate.textContent = formatDate(release.released_at);
+    nodes.latestSummary.textContent = summary;
+    nodes.latestSummary.hidden = summary === '';
     const installer = hrefOf(installerLink(state.releases)) ?? `${LATEST}${INSTALLER}`;
     const plugins = hrefOf(linkNamed(release, PLUGINS)) ?? `${LATEST}${PLUGINS}`;
     nodes.latestDownload.href = installer;

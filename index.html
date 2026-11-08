@@ -97,13 +97,13 @@
         <p class="hero-note" data-i18n="hero.note">Windows 10 and 11 · x64 · no installer</p>
       </div>
 
-      <aside class="latest-card panel" id="latest" aria-labelledby="latest-label">
+      <aside class="latest-card panel" id="latest" aria-label="Latest version" data-i18n-aria="aside.latest">
         <div class="latest-top">
-          <span class="panel-hint" id="latest-label" data-i18n="aside.latest">Latest version</span>
+          <span class="latest-version" id="latest-version">—</span>
           <span class="chip chip-accent" data-i18n="releases.latest">Latest</span>
         </div>
-        <span class="latest-version" id="latest-version">—</span>
         <span class="latest-date" id="latest-date">—</span>
+        <p class="latest-summary" id="latest-summary" hidden></p>
         <div class="latest-actions">
           <a class="btn btn-accent" id="latest-download" href="https://gitlab.com/editedcocktail1/runtimely/-/releases/permalink/latest/downloads/Runtimely.zip">
             <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
@@ -114,7 +114,6 @@
             <span data-i18n="aside.plugins">Plugin pack</span>
           </a>
         </div>
-        <p class="panel-hint latest-note" data-i18n="aside.requirementsText">Windows 10 or 11, 64-bit. Extract the archive and run Runtimely.exe.</p>
       </aside>
     </section>
 

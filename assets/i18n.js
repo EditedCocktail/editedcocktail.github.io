@@ -23,7 +23,6 @@ globalThis.RuntimelySiteWords = {
     'aside.latest': 'Latest version',
     'aside.download': 'Download',
     'aside.plugins': 'Plugin pack',
-    'aside.requirementsText': 'Windows 10 or 11, 64-bit. Extract the archive and run Runtimely.exe.',
 
     'releases.title': 'Release history',
     'releases.subtitle': 'Every release and what changed in it.',
@@ -67,7 +66,6 @@ globalThis.RuntimelySiteWords = {
     'aside.latest': 'Последняя версия',
     'aside.download': 'Скачать',
     'aside.plugins': 'Пакет плагинов',
-    'aside.requirementsText': 'Windows 10 или 11, 64 бита. Распакуйте архив и запустите Runtimely.exe.',
 
     'releases.title': 'История релизов',
     'releases.subtitle': 'Все релизы и что в них изменилось.',

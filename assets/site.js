@@ -6,6 +6,11 @@
   const LATEST = 'https://gitlab.com/editedcocktail1/runtimely/-/releases/permalink/latest/downloads/';
   const INSTALLER = 'Runtimely.zip';
   const PLUGINS = 'plugins.zip';
+  const CATEGORY_KEYS = {
+    new: 'releases.new',
+    improvements: 'releases.improvements',
+    fixes: 'releases.fixes',
+  };
 
   const words = globalThis.RuntimelySiteWords ?? { en: {}, ru: {} };
 
@@ -368,7 +373,8 @@
       const item = document.createElement('li');
       item.className = 'latest-count';
       const label = document.createElement('span');
-      label.textContent = `${name}:`;
+      const key = CATEGORY_KEYS[name.toLowerCase()];
+      label.textContent = `${key === undefined ? name : t(key)}:`;
       const value = document.createElement('strong');
       value.textContent = String(count);
       item.append(label, value);

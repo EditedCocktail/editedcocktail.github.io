@@ -35,6 +35,9 @@ globalThis.RuntimelySiteWords = {
     'releases.retry': 'Try again',
     'releases.download': 'Download',
     'releases.plugins': 'Plugin pack',
+    'releases.new': 'New',
+    'releases.improvements': 'Improvements',
+    'releases.fixes': 'Fixes',
 
     'footer.built': 'Built by Editely',
     'footer.app': 'App source',
@@ -78,6 +81,9 @@ globalThis.RuntimelySiteWords = {
     'releases.retry': 'Повторить',
     'releases.download': 'Скачать',
     'releases.plugins': 'Пакет плагинов',
+    'releases.new': 'Новое',
+    'releases.improvements': 'Улучшения',
+    'releases.fixes': 'Исправления',
 
     'footer.built': 'Сделано Editely',
     'footer.app': 'Исходники приложения',

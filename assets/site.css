@@ -314,9 +314,9 @@ a:hover {
 }
 
 .latest-counts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs) var(--space-md);
+  display: grid;
+  grid-template-columns: max-content max-content;
+  gap: var(--space-xs) var(--space-lg);
   margin: calc(-1 * var(--space-sm)) 0 0;
   padding: 0;
   list-style: none;
@@ -329,15 +329,14 @@ a:hover {
 }
 
 .latest-count {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.3em;
+  display: contents;
 }
 
 .latest-count strong {
   color: var(--color-text);
   font-weight: var(--font-weight-semibold);
   font-variant-numeric: tabular-nums;
+  justify-self: end;
 }
 
 .releases {

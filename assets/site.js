@@ -68,6 +68,14 @@
     return words[state.language]?.[key] ?? words.en?.[key] ?? key;
   }
 
+  /**
+   * A release-note category in the page's language, or the heading itself when it is not a known one.
+   */
+  function categoryLabel(name) {
+    const key = CATEGORY_KEYS[name.toLowerCase()];
+    return key === undefined ? name : t(key);
+  }
+
   function applyLanguage(language, { persist = true, rerender = true } = {}) {
     state.language = language === 'ru' ? 'ru' : 'en';
     if (persist) write('runtimely-site-lang', state.language);
@@ -225,7 +233,7 @@
         flushParagraph();
         flushList();
         const held = document.createElement('h4');
-        held.append(inline(heading[1]));
+        held.append(inline(categoryLabel(heading[1])));
         fragment.append(held);
         sawHeading = true;
         continue;
@@ -373,8 +381,7 @@
       const item = document.createElement('li');
       item.className = 'latest-count';
       const label = document.createElement('span');
-      const key = CATEGORY_KEYS[name.toLowerCase()];
-      label.textContent = `${key === undefined ? name : t(key)}:`;
+      label.textContent = `${categoryLabel(name)}:`;
       const value = document.createElement('strong');
       value.textContent = String(count);
       item.append(label, value);

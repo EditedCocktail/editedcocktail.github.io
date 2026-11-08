@@ -317,7 +317,7 @@ a:hover {
   display: grid;
   grid-template-columns: max-content max-content;
   gap: var(--space-xs) var(--space-lg);
-  margin: calc(-1 * var(--space-sm)) 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
   color: var(--color-text-muted);
@@ -326,6 +326,11 @@ a:hover {
 
 .latest-counts[hidden] {
   display: none;
+}
+
+.latest-count span {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .latest-count {

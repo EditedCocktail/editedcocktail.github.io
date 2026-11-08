@@ -20,8 +20,7 @@ Then open <http://localhost:8080>. Any static server works.
 ## How the release history is read
 
 1. The page asks the public GitLab API for the releases of `editedcocktail1/runtimely`.
-2. If that request fails, it falls back to `assets/releases.json`, the last saved answer, and says so.
-3. If both fail, it offers a retry and links to the GitLab releases page.
+2. If that request fails, it offers a retry and links to the GitLab releases page.
 
 The Windows download follows the newest release that actually ships the app: a release that only changes
 plugins carries `plugins.zip` alone, so the install buttons stay on the last release with `Runtimely.zip`
@@ -29,13 +28,6 @@ while the Plugin pack button always takes the latest release's pack. A first ins
 updates its plugins on launch.
 
 The API is public and answers cross-origin requests from GitHub Pages. No token is shipped.
-
-`assets/releases.json` is a snapshot, not the source of truth. Refresh it after a release:
-
-```sh
-curl -s "https://gitlab.com/api/v4/projects/editedcocktail1%2Fruntimely/releases?per_page=100" \
-  -o assets/releases.json
-```
 
 ## Hosting
 
@@ -72,7 +64,6 @@ A push then republishes the site within a minute.
 | `assets/site.css` | The page layout, built only from the kit's tokens. |
 | `assets/site.js` | Themes, languages, release fetching, and the small Markdown reader for release notes. |
 | `assets/i18n.js` | English and Russian words. |
-| `assets/releases.json` | The last saved release list, used when the API is unreachable. |
 | `assets/icon.png` | Runtimely's icon. |
 | `.nojekyll` | Tells GitHub Pages to serve the files as they are. |
 | `google85b3b2db6e31c63e.html` | Google Search Console verification. |

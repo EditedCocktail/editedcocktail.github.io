@@ -2,7 +2,6 @@
   'use strict';
 
   const API = 'https://gitlab.com/api/v4/projects/editedcocktail1%2Fruntimely/releases?per_page=100';
-  const FALLBACK = 'assets/releases.json';
   const LATEST = 'https://gitlab.com/editedcocktail1/runtimely/-/releases/permalink/latest/downloads/';
   const INSTALLER = 'Runtimely.zip';
   const PLUGINS = 'plugins.zip';
@@ -20,7 +19,6 @@
     releases: [],
     loading: true,
     error: false,
-    offline: false,
   };
 
   const nodes = {
@@ -441,7 +439,6 @@
       return;
     }
     const held = [];
-    if (state.offline === true) held.push(statusLine(t('releases.offline')));
     state.releases.forEach((release, index) => held.push(releaseCard(release, index === 0)));
     nodes.list.replaceChildren(...held);
   }
@@ -465,20 +462,9 @@
       const held = await response.json();
       if (Array.isArray(held) === false) throw new Error('not a release list');
       state.releases = sorted(held);
-      state.offline = false;
     } catch {
-      try {
-        const response = await fetch(FALLBACK, { headers: { Accept: 'application/json' } });
-        if (response.ok === false) throw new Error(`HTTP ${response.status}`);
-        const held = await response.json();
-        if (Array.isArray(held) === false) throw new Error('not a release list');
-        state.releases = sorted(held);
-        state.offline = true;
-      } catch {
-        state.releases = [];
-        state.offline = false;
-        state.error = true;
-      }
+      state.releases = [];
+      state.error = true;
     } finally {
       clearTimeout(timer);
       state.loading = false;

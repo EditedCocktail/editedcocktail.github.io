@@ -27,7 +27,7 @@ globalThis.RuntimelySiteWords = {
     'tutorial.step2.title': 'Extract it to a folder',
     'tutorial.step2.text': 'Unzip Runtimely.zip where Runtimely will stay; there is nothing to install.',
     'tutorial.step3.title': 'Add this folder to Windows Defender exclusions',
-    'tutorial.step3.text': 'Windows may flag the downloaded build. Add the folder under Windows Security → Virus & threat protection → Exclusions.',
+    'tutorial.step3.text': 'Windows may flag the downloaded build. Add the folder under Windows Security → Virus & threat protection → Manage settings → Exclusions.',
     'tutorial.step4.title': 'Run Runtimely.exe',
     'tutorial.step4.text': 'Start it from that folder; Runtimely keeps itself and its plugins up to date.',
 
@@ -83,7 +83,7 @@ globalThis.RuntimelySiteWords = {
     'tutorial.step2.title': 'Распакуйте архив в папку',
     'tutorial.step2.text': 'Распакуйте Runtimely.zip туда, где Runtimely будет храниться; устанавливать ничего не нужно.',
     'tutorial.step3.title': 'Добавьте эту папку в исключения Windows Defender',
-    'tutorial.step3.text': 'Windows может пометить скачанную сборку. Добавьте папку в «Безопасность Windows» → «Защита от вирусов и угроз» → «Исключения».',
+    'tutorial.step3.text': 'Windows может пометить скачанную сборку. Добавьте папку в «Безопасность Windows» → «Защита от вирусов и угроз» → «Управление настройками» → «Исключения».',
     'tutorial.step4.title': 'Запустите Runtimely.exe',
     'tutorial.step4.text': 'Запустите его из этой папки: Runtimely сам обновляет себя и свои плагины.',
 

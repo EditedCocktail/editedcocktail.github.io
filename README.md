@@ -60,7 +60,7 @@ A push then republishes the site within a minute.
 | --- | --- |
 | `index.html` | The page, its copy and its icons. |
 | `404.html` | GitHub Pages' not-found page, in the same theme. |
-| `assets/kit.css` | The part of Runtimely's ui-kit the page uses: the palette of both variants and the controls. |
+| `assets/kit.css` | A trimmed copy of Runtimely's ui-kit sheet (`plugins/dev/ui-kit/sheet/kit.css`) with the default theme's two variants from its palette (`plugins/dev/themes/palette/tokens.json`). |
 | `assets/site.css` | The page layout, built only from the kit's tokens. |
 | `assets/site.js` | Themes, languages, release fetching, and the small Markdown reader for release notes. |
 | `assets/i18n.js` | English and Russian words. |
@@ -71,7 +71,11 @@ A push then republishes the site within a minute.
 ## Themes and languages
 
 Dark is the default, matching Runtimely's base theme. The choice is kept in `localStorage`, and the head
-script applies it before the page paints. The light palette is the ui-kit's own base light values.
+script applies it before the page paints. The two variants carry the values the palette resolves for its
+default dark and light variants, so the page and the app share one palette.
+
+`assets/kit.css` is trimmed to the blocks this page draws. When Runtimely's kit changes, copy the changed
+rules and tokens over by hand; the site has no build step and does not read the app's folder.
 
 The language is English or Russian, defaulting to the browser's language, and is also kept in `localStorage`.
 The interface switches; the release notes themselves are shown as published, in English.

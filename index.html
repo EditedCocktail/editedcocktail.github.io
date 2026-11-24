@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Runtimely — a launcher for Windows</title>
   <meta name="description" content="A launcher that runs every app against one Electron engine, with its own library, tray, settings and updates.">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#111111">
   <meta property="og:title" content="Runtimely — a launcher for Windows">
   <meta property="og:description" content="A launcher that runs every app against one Electron engine, with its own library, tray, settings and updates.">
   <meta property="og:type" content="website">
@@ -60,17 +60,17 @@
         <a href="https://gitlab.com/editedcocktail1/runtimely" data-i18n="nav.source">Source</a>
       </nav>
       <div class="header-controls">
-        <div class="segmented" role="group" aria-label="Theme" data-i18n-aria="theme.label">
-          <button type="button" class="segmented-button" data-theme-set="dark" aria-pressed="true" aria-label="Dark" title="Dark" data-i18n-aria="theme.dark" data-i18n-title="theme.dark">
+        <div class="theme-switch" role="group" aria-label="Theme" data-i18n-aria="theme.label">
+          <button type="button" class="icon-button theme-choice" data-theme-set="dark" aria-pressed="true" aria-label="Dark" title="Dark" data-i18n-aria="theme.dark" data-i18n-title="theme.dark">
             <svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg>
           </button>
-          <button type="button" class="segmented-button" data-theme-set="light" aria-pressed="false" aria-label="Light" title="Light" data-i18n-aria="theme.light" data-i18n-title="theme.light">
+          <button type="button" class="icon-button theme-choice" data-theme-set="light" aria-pressed="false" aria-label="Light" title="Light" data-i18n-aria="theme.light" data-i18n-title="theme.light">
             <svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg>
           </button>
         </div>
         <label class="lang-field">
           <span class="visually-hidden" data-i18n="language">Language</span>
-          <select id="language" class="site-select" aria-label="Language" data-i18n-aria="language">
+          <select id="language" class="select site-select" aria-label="Language" data-i18n-aria="language">
             <option value="en">English</option>
             <option value="ru">Русский</option>
           </select>
@@ -160,7 +160,7 @@
           <label class="version-field">
             <span class="version-label" data-i18n="releases.versionFilter">Version year.month:</span>
             <span class="lang-field">
-              <select id="release-month" class="site-select" aria-label="Version year.month:" data-i18n-aria="releases.versionFilter"></select>
+              <select id="release-month" class="select site-select" aria-label="Version year.month:" data-i18n-aria="releases.versionFilter"></select>
             </span>
           </label>
         </div>

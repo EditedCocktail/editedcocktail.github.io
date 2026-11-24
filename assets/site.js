@@ -102,7 +102,7 @@
     state.theme = theme === 'light' ? 'light' : 'dark';
     if (persist) write('runtimely-site-theme', state.theme);
     document.documentElement.dataset.theme = state.theme;
-    nodes.metaTheme?.setAttribute('content', state.theme === 'light' ? '#f0f2f5' : '#121212');
+    nodes.metaTheme?.setAttribute('content', state.theme === 'light' ? '#ffffff' : '#111111');
     for (const button of document.querySelectorAll('[data-theme-set]')) {
       button.setAttribute('aria-pressed', String(button.dataset.themeSet === state.theme));
     }

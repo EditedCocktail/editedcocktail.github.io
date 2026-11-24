@@ -155,7 +155,15 @@
           <h2 id="releases-title" data-i18n="releases.title">Release history</h2>
           <p data-i18n="releases.subtitle">Every release and what changed in it.</p>
         </div>
-        <p class="panel-hint" data-i18n="releases.notesLanguage">Release notes are published in English.</p>
+        <div class="section-controls">
+          <p class="panel-hint" data-i18n="releases.notesLanguage">Release notes are published in English.</p>
+          <label class="version-field">
+            <span class="version-label" data-i18n="releases.versionFilter">Version year.month:</span>
+            <span class="lang-field">
+              <select id="release-month" class="site-select" aria-label="Version year.month:" data-i18n-aria="releases.versionFilter"></select>
+            </span>
+          </label>
+        </div>
       </header>
       <div class="release-list" id="releases-list" aria-live="polite">
         <p class="status" data-i18n="releases.loading">Loading releases…</p>

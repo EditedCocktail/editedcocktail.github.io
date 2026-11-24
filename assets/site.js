@@ -17,12 +17,14 @@
     language: 'en',
     theme: 'dark',
     releases: [],
+    month: null,
     loading: true,
     error: false,
   };
 
   const nodes = {
     list: document.querySelector('#releases-list'),
+    month: document.querySelector('#release-month'),
     latestVersion: document.querySelector('#latest-version'),
     latestDate: document.querySelector('#latest-date'),
     latestSummary: document.querySelector('#latest-summary'),
@@ -416,6 +418,7 @@
 
   function render() {
     if (nodes.list === null) return;
+    renderMonths();
     if (state.loading === true) {
       nodes.list.replaceChildren(statusLine(t('releases.loading')));
       return;
@@ -438,9 +441,36 @@
       nodes.list.replaceChildren(statusLine(t('releases.empty')));
       return;
     }
-    const held = [];
-    state.releases.forEach((release, index) => held.push(releaseCard(release, index === 0)));
+    const latest = state.releases[0]?.tag_name;
+    const visible = state.month === null
+      ? state.releases
+      : state.releases.filter((release) => monthOf(release) === state.month);
+    const held = visible.map((release) => releaseCard(release, release.tag_name === latest));
     nodes.list.replaceChildren(...held);
+  }
+
+  /** The `year.month` a release's tag starts with, or null for a tag outside that shape. */
+  function monthOf(release) {
+    const held = /^(\d{4}\.\d{2})\./u.exec(String(release?.tag_name ?? ''));
+    return held?.[1] ?? null;
+  }
+
+  function renderMonths() {
+    if (nodes.month === null) return;
+    const months = [];
+    for (const release of state.releases) {
+      const month = monthOf(release);
+      if (month !== null && months.includes(month) === false) months.push(month);
+    }
+    if (state.month === null || months.includes(state.month) === false) state.month = months[0] ?? null;
+    nodes.month.replaceChildren(...months.map((month) => {
+      const option = document.createElement('option');
+      option.value = month;
+      option.textContent = month;
+      return option;
+    }));
+    nodes.month.value = state.month ?? '';
+    nodes.month.disabled = months.length === 0;
   }
 
   function sorted(releases) {
@@ -477,6 +507,10 @@
     applyTheme(initialTheme(), { persist: false });
     applyLanguage(initialLanguage(), { persist: false, rerender: false });
     nodes.language?.addEventListener('change', (event) => applyLanguage(event.target.value));
+    nodes.month?.addEventListener('change', (event) => {
+      state.month = event.target.value || null;
+      render();
+    });
     for (const button of document.querySelectorAll('[data-theme-set]')) {
       button.addEventListener('click', () => applyTheme(button.dataset.themeSet));
     }

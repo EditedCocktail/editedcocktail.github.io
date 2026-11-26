@@ -49,6 +49,7 @@ globalThis.RuntimelySiteWords = {
     'releases.new': 'New',
     'releases.improvements': 'Improvements',
     'releases.fixes': 'Fixes',
+    'releases.misc': 'Misc',
 
     'footer.built': 'Built by Editely',
     'footer.app': 'App source',
@@ -106,6 +107,7 @@ globalThis.RuntimelySiteWords = {
     'releases.new': 'Новое',
     'releases.improvements': 'Улучшения',
     'releases.fixes': 'Исправления',
+    'releases.misc': 'Прочее',
 
     'footer.built': 'Сделано Editely',
     'footer.app': 'Исходники приложения',

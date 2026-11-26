@@ -9,6 +9,7 @@
     new: 'releases.new',
     improvements: 'releases.improvements',
     fixes: 'releases.fixes',
+    misc: 'releases.misc',
   };
 
   const words = globalThis.RuntimelySiteWords ?? { en: {}, ru: {} };
